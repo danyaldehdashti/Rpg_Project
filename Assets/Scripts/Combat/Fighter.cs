@@ -10,20 +10,30 @@ namespace Combat
     {
         [SerializeField] private float weaponRange;
 
+        [SerializeField] private float timeBetweenAttacks;
+
         private Transform _target;
+
+        private float _timeSinceLastAttack = 0;
 
         private Mover _mover;
 
         private ActionScheduler _actionScheduler;
 
+        private Animator _animator;
+        private static readonly int Attack1 = Animator.StringToHash("attack");
+
         private void Awake()
         {
             _mover = GetComponent<Mover>();
             _actionScheduler = GetComponent<ActionScheduler>();
+            _animator = GetComponent<Animator>();
         }
 
         private void Update()
         {
+            _timeSinceLastAttack += Time.deltaTime;
+            
             if (_target == null) return;
 
             if (!GetInRange())
@@ -33,6 +43,16 @@ namespace Combat
             else
             {
                 _mover.Cancel();
+                AttackBehaviour();
+            }
+        }
+
+        private void AttackBehaviour()
+        {
+            if (_timeSinceLastAttack > timeBetweenAttacks)
+            {
+                _animator.SetTrigger(Attack1);
+                _timeSinceLastAttack = 0;
             }
         }
 
