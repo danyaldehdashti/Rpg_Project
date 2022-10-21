@@ -1,16 +1,15 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime;
 using UnityEngine;
 
-public class FollowCamera : MonoBehaviour
+namespace Core
 {
-    [SerializeField] private Transform target;
-
-
-    private void LateUpdate()
+    public class FollowCamera : MonoBehaviour
     {
-        gameObject.transform.position = target.position;
+        [SerializeField] private Transform target;
+
+
+        private void LateUpdate()
+        {
+            gameObject.transform.position = target.position;
+        }
     }
 }
